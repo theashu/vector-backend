@@ -9,6 +9,10 @@ Finally updating the same in database using bulk update operation.
 
 All this logic is wrapped in transaction to avoid any conflicts when we move to multiuser scenario since more than one user could be reording at the same time.
 
+#### Optimizations -
+- Have no default value of position, assuming user would be reordering only from UI, it's very difficult for user to be able to define order of more than a few 100 elements so if we sort the remaining elments by any order we can reduce the queryset size on which we need to apply reorder operation.
+- Batch multiple ordering operations in 1 call
+
 ### Multiple Users
 If the multiple users are allowed to have there own order of items then we would need to move the position key to a new model and have user id, card id and position.
 

@@ -52,27 +52,27 @@ def reordering_cats(request):
     data = request.data
     pictures_count = PicturesModel.objects.count()
     updated_picture_detail = PicturesModel.objects.get(pk=data.get("cat_id"))
-    sorted_order = data.get("sorted_order")
+    sorted_order = data.get("moves")
     if not updated_picture_detail:
         return Response(status=status.HTTP_404_NOT_FOUND, data={"message": "Cat not found"})
     position_list = [updated_picture_detail.position]
     if sorted_order < 0:
         if updated_picture_detail.position + sorted_order < 0:
-            return Response(status=status.HTTP_404_NOT_FOUND, data={"message": "Sorted order value is not correct."})
+            return Response(status=status.HTTP_404_NOT_FOUND, data={"message": "Moves value is not correct."})
         while sorted_order < 0:
            position_list.append(updated_picture_detail.position+sorted_order)
            sorted_order +=1 
     elif sorted_order == 0:
-        return Response(status=status.HTTP_200_OK, data={"message": "Reorder does not performed"})
+        return Response(status=status.HTTP_200_OK, data={"message": "Reorder not performed"})
     else:
         if updated_picture_detail.position + sorted_order > pictures_count:
-            return Response(status=status.HTTP_404_NOT_FOUND, data={"message": "Sorted order value is not correct."})
+            return Response(status=status.HTTP_404_NOT_FOUND, data={"message": "Moves value is not correct."})
         while sorted_order > 0:
             position_list.append(updated_picture_detail.position+sorted_order)
             sorted_order-=1
-    print(f"Positions List: {position_list}, Requested Id: {data.get('cat_id')}, Sorting Order: {data.get('sorted_order')}\n")
+    print(f"Positions List: {position_list}, Requested Id: {data.get('cat_id')}, Sorting Order: {data.get('moves')}\n")
     update_dict = {}
-    if data.get("sorted_order") < 0:
+    if data.get("moves") < 0:
         update_dict[updated_picture_detail.id] = min(position_list)
         position_list.remove(max(position_list))
         for postion_data in position_list:

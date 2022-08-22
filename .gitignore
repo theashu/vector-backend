@@ -9,6 +9,14 @@ media
 # Backup files # 
 *.bak 
 
+.env
+__pycache__
+media/images/*
+app/__pycache__
+VectorBackend/__pycache__
+db.sqlite3
+
+
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -135,3 +143,5 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+
